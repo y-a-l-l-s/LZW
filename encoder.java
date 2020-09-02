@@ -8,7 +8,7 @@ public class Encoder {
 		dict = new HashMap<String, Integer>;
 		counter = 0;
 	}
-  public void encode(String filename) {
+  	public void encode(String filename) {
     BufferedReader br = new BufferedReader(new File(filename));
     BufferedWriter bw = new BufferedWriter(new FileWriter(filename.substring(0, filename.length-4)+".lzw"));
 
