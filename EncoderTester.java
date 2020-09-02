@@ -1,4 +1,4 @@
-public class EncoderTester(){
+public class EncoderTester{
 	public static void main (String [] args)
 	{
 		Encoder eli = new Encoder (256);

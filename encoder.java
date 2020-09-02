@@ -1,52 +1,53 @@
-import.java.util.*;
+import java.util.*;
 import java.io.*;
 import java.util.HashMap;
 public class Encoder {
 	private HashMap<String,Integer> dict;
 	private Integer counter;
 	public Encoder(int chars) {
-		dict = new HashMap<String, Integer>;
+		dict = new HashMap<String, Integer>();
 		counter = 0;
 		setup(chars);
 	}
-  	public void encode(String fileName) {
-	    BufferedReader br = new BufferedReader(new File(filename));
-	    BufferedWriter bw = new BufferedWriter(new FileWriter(filename.substring(0, filename.length-4)+".lzw"));
-	    char current;
-	    String temp = "";
-	    while (br.ready()) {
-	      current = br.read();
-	      temp += current;
-	      while (temp.isKey() && br.ready()) {
-	        current = br.read();
-	        temp += current;
-	      }
-				if (br.ready()) {}
-	      	write(addKey(temp), bw);
-	      	temp = current;
+	public void encode (String fileName) {
+
+    BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
+    BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName.substring(0, fileName.length()-4)+".lzw")));
+    char current;
+    String temp = "";
+    while (br.ready()) {
+      current = (char) br.read();
+      temp += current;
+      while (isKey(temp) && br.ready()) {
+        current = (char) br.read();
+        temp += current;
+      }
+			if (br.ready()) {
+      	write(addKey(temp), bw);
+      	temp = "" + current;
+			} else {
+				if (isKey(temp)) {
+					write(dict.get(temp), bw);
 				} else {
-					if (isKey(temp) {
-						write(dict.get(temp), bw);
-					} else {
-						write(addKey(temp), bw);
-						write(dict.get(current), bw);
-					}
+					write(addKey(temp), bw);
+					write(dict.get(current), bw);
 				}
-		    br.close();
-				bw.flush();
-				bw.close();
+			}
+	    br.close();
+			bw.flush();
+			bw.close();
     }
-	}
+  }
 
   //writes the Integer onto the output file
-  private void write(Integer num, BufferedWriter writer) {
-          String tempString = num;
+  private void write (Integer num, BufferedWriter writer) {
+          String tempString = "" + num;
           writer.write(tempString);
   }
 
-	private setup (int chars) {
-		for (i = 0; i < chars; i++) {
-			dict.put(i, (char) i);
+	private void setup (int chars) {
+		for (int i = 0; i < chars; i++) {
+			dict.put("" + (char) i, i);
 		}
 		counter = chars;
 	}
