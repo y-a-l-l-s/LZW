@@ -3,8 +3,8 @@ public class Encoder {
 
   }
   public void encode(String filename) {
-    BufferedReader br = new BufferedReader(new FileReader(filename));
-    BufferedWriter bw = new BufferedWriter(new FileReader(filename+".lzw"));
+    BufferedReader br = new BufferedReader(new File(filename));
+    BufferedWriter bw = new BufferedWriter(new FileWriter(filename+".lzw"));
 
 
   }
