@@ -11,7 +11,7 @@ public class Encoder {
   	public void encode(String filename) {
 	    BufferedReader br = new BufferedReader(new File(filename));
 	    BufferedWriter bw = new BufferedWriter(new FileWriter(filename.substring(0, filename.length-4)+".lzw"));
-			setup();
+			setup(256);
 	    char current;
 	    String temp = "";
 	    while (br.ready()) {
@@ -22,33 +22,33 @@ public class Encoder {
 	        temp += current;
 	      }
 				if (br.ready()) {}
-	      	write(addKey(temp));
+	      	write(addKey(temp), bw);
 	      	temp = current;
 				} else {
 					if (isKey(temp) {
-						write(temp);
+						write(dict.get(temp), bw);
 					} else {
-						write(addKey(temp));
-						write(current);
+						write(addKey(temp), bw);
+						write(dict.get(current), bw);
 					}
 				}
+		    br.close();
+				bw.flush();
+				bw.close();
     }
-    br.close();
 	}
 
   //writes the Integer onto the output file
-  private void write(Integer num, BufferedWriter writer) { 
+  private void write(Integer num, BufferedWriter writer) {
           String tempString = num;
           writer.write(tempString);
-          writer.flush();
-          writer.close();
   }
 
 	private setup (int chars) {
 		for (i = 0; i < chars; i++) {
 			dict.put(i, (char) i);
 		}
-		counter = chars
+		counter = chars;
 	}
 
 	//
