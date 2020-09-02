@@ -1,7 +1,7 @@
 public class EncoderTester(){
 	public static void main (String [] args)
 	{
-		encoder eli = new encoder (256);
+		Encoder eli = new Encoder (256);
 		eli.encode("message.txt");
 	}
 }
