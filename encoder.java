@@ -1,11 +1,18 @@
+import.java.util.*;
+import java.io.*;
+import java.util.HashMap;
 public class Encoder {
-  public Encoder() {
-
-  }
+	private HashMap<String,Integer> hm;
+	public Encoder() {
+		hm = new HashMap<String, Integer>
+	}
   public void encode(String filename) {
     BufferedReader br = new BufferedReader(new File(filename));
     BufferedWriter bw = new BufferedWriter(new FileWriter(filename+".lzw"));
 
+	}
 
-  }
+	private boolean isKey (String s) {
+		return hm.containsKey(s);
+	}
 }
