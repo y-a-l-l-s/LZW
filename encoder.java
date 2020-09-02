@@ -31,9 +31,12 @@ public class Encoder {
     br.close();
 	}
 
-  //
-  private void write(Integer num) {
-
+  //writes the Integer onto the output file
+  private void write(Integer num, BufferedWriter writer) { 
+          String tempString = num;
+          writer.write(tempString);
+          writer.flush();
+          writer.close();
   }
 
 	//
