@@ -21,7 +21,7 @@ public class Encoder {
     while (br.ready()) {
       current = br.read();
       temp += current;
-      while (current.isKey()) {
+      while (temp.isKey() && br.ready()) {
         current = br.read();
         temp += current;
       }
@@ -40,6 +40,7 @@ public class Encoder {
 	private void firstChar (char c) {
 		dict.put(c, 0);
 		counter++;
+		write(0);
 	}
 
 	//
