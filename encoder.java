@@ -12,19 +12,43 @@ public class Encoder {
     BufferedReader br = new BufferedReader(new File(filename));
     BufferedWriter bw = new BufferedWriter(new FileWriter(filename.substring(0, filename.length-4)+".lzw"));
 
+    char current;
+    String temp = "";
+    if (br.ready) {
+      current = br.read();
+      firstChar(current);
+    }
+    while (br.ready()) {
+      current = br.read();
+      temp += current;
+      while (current.isKey()) {
+        current = br.read();
+        temp += current;
+      }
+      write(addKey(temp));
+      temp = "";
+    }
+    br.close();
 	}
+
+  //
+  private void write(Integer num) {
+
+  }
+
 	//
 	private void firstChar (char c) {
 		dict.put(c, 0);
 		counter++;
 	}
+
 	//
 	private boolean isKey (String s) {
 		return dict.containsKey(s);
 	}
 
-
-	public Integer addKey (String str) { //adds new string to HashMap with the value of counter. Increments counter. Returns the associated value of str - 1 letter.
+  //adds new string to HashMap with the value of counter. Increments counter. Returns the associated value of str - 1 letter.
+	public Integer addKey (String str) {
 		dict.put(str, counter);
 		counter++;
 		return dict.get(str.substring(0,str.length()-1));;
