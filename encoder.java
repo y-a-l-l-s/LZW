@@ -9,24 +9,29 @@ public class Encoder {
 		counter = 0;
 	}
   	public void encode(String filename) {
-    BufferedReader br = new BufferedReader(new File(filename));
-    BufferedWriter bw = new BufferedWriter(new FileWriter(filename.substring(0, filename.length-4)+".lzw"));
-
-    char current;
-    String temp = "";
-    if (br.ready) {
-      current = br.read();
-      firstChar(current);
-    }
-    while (br.ready()) {
-      current = br.read();
-      temp += current;
-      while (temp.isKey() && br.ready()) {
-        current = br.read();
-        temp += current;
-      }
-      write(addKey(temp));
-      temp = "";
+	    BufferedReader br = new BufferedReader(new File(filename));
+	    BufferedWriter bw = new BufferedWriter(new FileWriter(filename.substring(0, filename.length-4)+".lzw"));
+			setup();
+	    char current;
+	    String temp = "";
+	    while (br.ready()) {
+	      current = br.read();
+	      temp += current;
+	      while (temp.isKey() && br.ready()) {
+	        current = br.read();
+	        temp += current;
+	      }
+				if (br.ready()) {}
+	      	write(addKey(temp));
+	      	temp = current;
+				} else {
+					if (isKey(temp) {
+						write(temp);
+					} else {
+						write(addKey(temp));
+						write(current);
+					}
+				}
     }
     br.close();
 	}
@@ -36,11 +41,11 @@ public class Encoder {
 
   }
 
-	//
-	private void firstChar (char c) {
-		dict.put(c, 0);
-		counter++;
-		write(0);
+	private setup (int chars) {
+		for (i = 0; i < chars; i++) {
+			dict.put(i, (char) i);
+		}
+		counter = chars
 	}
 
 	//
