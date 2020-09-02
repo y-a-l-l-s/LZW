@@ -10,39 +10,48 @@ public class Encoder {
 		setup(chars);
 	}
 	public void encode (String fileName) {
-
-    BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
-    BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName.substring(0, fileName.length()-4)+".lzw")));
-    char current;
-    String temp = "";
-    while (br.ready()) {
-      current = (char) br.read();
-      temp += current;
-      while (isKey(temp) && br.ready()) {
+    try {
+      BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
+      BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName.substring(0, fileName.length()-4)+".lzw")));
+      char current;
+      String temp = "";
+      while (br.ready()) {
         current = (char) br.read();
         temp += current;
+        while (isKey(temp) && br.ready()) {
+          current = (char) br.read();
+          temp += current;
+        }
+  			if (br.ready()) {
+        	write(addKey(temp), bw);
+        	temp = "" + current;
+  			} else {
+  				if (isKey(temp)) {
+  					write(dict.get(temp), bw);
+  				} else {
+  					write(addKey(temp), bw);
+  					write(dict.get(current), bw);
+  				}
+  			}
+  	    br.close();
+  			bw.flush();
+  			bw.close();
       }
-			if (br.ready()) {
-      	write(addKey(temp), bw);
-      	temp = "" + current;
-			} else {
-				if (isKey(temp)) {
-					write(dict.get(temp), bw);
-				} else {
-					write(addKey(temp), bw);
-					write(dict.get(current), bw);
-				}
-			}
-	    br.close();
-			bw.flush();
-			bw.close();
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
     }
   }
 
   //writes the Integer onto the output file
   private void write (Integer num, BufferedWriter writer) {
-          String tempString = "" + num;
-          writer.write(tempString);
+    try {
+      String tempString = "" + num;
+      writer.write(tempString);
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+    }
   }
 
 	private void setup (int chars) {
@@ -61,6 +70,6 @@ public class Encoder {
 	private Integer addKey (String str) {
 		dict.put(str, counter);
 		counter++;
-		return dict.get(str.substring(0,str.length()-1));;
+		return dict.get(str.substring(0,str.length()-1));
 	}
 }
