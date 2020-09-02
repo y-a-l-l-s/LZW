@@ -4,14 +4,14 @@ import java.util.HashMap;
 public class Encoder {
 	private HashMap<String,Integer> dict;
 	private Integer counter;
-	public Encoder() {
+	public Encoder(int chars) {
 		dict = new HashMap<String, Integer>;
 		counter = 0;
+		setup(chars);
 	}
-  	public void encode(String filename) {
+  	public void encode(String fileName) {
 	    BufferedReader br = new BufferedReader(new File(filename));
 	    BufferedWriter bw = new BufferedWriter(new FileWriter(filename.substring(0, filename.length-4)+".lzw"));
-			setup(256);
 	    char current;
 	    String temp = "";
 	    while (br.ready()) {
