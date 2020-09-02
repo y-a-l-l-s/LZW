@@ -47,8 +47,8 @@ public class Encoder {
 		return dict.containsKey(s);
 	}
 
-  //adds new string to HashMap with the value of counter. Increments counter. Returns the associated value of str - 1 letter.
-	public Integer addKey (String str) {
+	//adds new string to HashMap with the value of counter. Increments counter. Returns the associated value of str - 1 letter.
+	private Integer addKey (String str) {
 		dict.put(str, counter);
 		counter++;
 		return dict.get(str.substring(0,str.length()-1));;
