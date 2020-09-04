@@ -9,50 +9,46 @@ public class Encoder {
 		counter = 0;
 		setup(chars);
 	}
-	public void encode (String fileName) {
-    try {
-      BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
-      BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName.substring(0, fileName.length()-4)+".lzw")));
-      char current;
-      String temp = "";
-      while (br.ready()) {
-        current = (char) br.read();
-        temp += current;
-        while (isKey(temp) && br.ready()) {
-          current = (char) br.read();
-          temp += current;
-        }
-  			if (br.ready()) {
-        	write(addKey(temp), bw);
-        	temp = "" + current;
-  			} else {
-  				if (isKey(temp)) {
-  					write(dict.get(temp), bw);
-  				} else {
-  					write(addKey(temp), bw);
-  					write(dict.get(current), bw);
-  				}
-  			}
-  	    br.close();
-  			bw.flush();
-  			bw.close();
-      }
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-    }
-  }
+	public void encode (String fileName) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName.substring(0, fileName.length()-4)+".lzw")));
+		char current;
+		String temp = "";
+		while (br.ready()) {
+			current = (char) br.read();
+			temp += current;
+			while (isKey(temp) && br.ready()) {
+				current = (char) br.read();
+				temp += current;
+			}
+			if (br.ready()) {
+				write(addKey(temp), bw);
+				temp = "" + current;
+			} else {
+				if (isKey(temp)) {
+					write(dict.get(temp), bw);
+				} else {
+					write(addKey(temp), bw);
+					write(dict.get(current), bw);
+				}
+			}
+		}
 
-  //writes the Integer onto the output file
-  private void write (Integer num, BufferedWriter writer) {
-    try {
-      String tempString = "" + num;
-      writer.write(tempString);
-    }
-    catch (Exception ex) {
-      ex.printStackTrace();
-    }
-  }
+		br.close();
+		bw.flush();
+		bw.close();
+	}
+
+	//writes the Integer onto the output file
+	private void write (Integer num, BufferedWriter writer) {
+		try {
+			String tempString = "" + num;
+			writer.write(tempString);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
 	private void setup (int chars) {
 		for (int i = 0; i < chars; i++) {
