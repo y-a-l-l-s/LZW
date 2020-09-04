@@ -14,7 +14,7 @@ public class Encoder {
 		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName.substring(0, fileName.length()-4)+".lzw")));
 		char current;
-		String temp = "";
+		String temp = "";//temp holds the string of characters to be compressed
 		while (br.ready()) {
 			current = (char) br.read();
 			temp += current;
@@ -22,15 +22,25 @@ public class Encoder {
 				current = (char) br.read();
 				temp += current;
 			}
+			//break case where we arent at the end of the file, and thus temp is no longer a key
 			if (br.ready()) {
-				write(addKey(temp), bw);
+				try {
+					write(addKey(temp), bw);
+				} catch (Exception ex) {
+					System.out.println(temp);
+					System.out.println(dict.get(temp));
+					System.out.println(addKey(temp));
+			        ex.printStackTrace();
+			    }
 				temp = "" + current;
 			} else {
+				//break case  where we are at the end of a file, but temp is a key
 				if (isKey(temp)) {
 					write(dict.get(temp), bw);
+				//break case where we are at the end of a file, but temp is not a key
 				} else {
 					write(addKey(temp), bw);
-					write(dict.get(current), bw);
+						write(dict.get(""+current), bw);
 				}
 			}
 		}
@@ -39,20 +49,16 @@ public class Encoder {
 		bw.close();
 	}
 
-	//writes the Integer onto the output file
-	private void write (Integer num, BufferedWriter writer) {
-		try {
-			int c1 = (int) (num / 256);
-			writer.write((char)c1);
-			int c2 = (int) (num % 256);
-			writer.write((char)c2);
+	//writes the Integer onto the output file in base 256 2 digit form
+	private void write (Integer num, BufferedWriter writer) throws IOException {
+		int c1 = (int) (num / 256);
+		writer.write((char)c1);
+		int c2 = (int) (num % 256);
+		writer.write((char)c2);
 			
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		
 	}
-
+	//sets up the first 256 ascii chars in the dictionary
 	private void setup (int chars) {
 		for (int i = 0; i < chars; i++) {
 			dict.put("" + (char) i, i);
@@ -60,7 +66,7 @@ public class Encoder {
 		counter = chars;
 	}
 
-	//
+	//checks if a string is a key in our dictionary
 	private boolean isKey (String s) {
 		return dict.containsKey(s);
 	}
