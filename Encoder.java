@@ -5,6 +5,7 @@ public class Encoder {
 	private HashMap <String,Integer> dict;
 	private int counter, maxCodes;
 	public Encoder(int maxCodes) {
+		//dictionary
 		dict = new HashMap<String, Integer>();
 		counter = 0;
 		this.maxCodes = maxCodes;
@@ -55,8 +56,8 @@ public class Encoder {
 		writer.write((char)c1);
 		int c2 = (int) (num % 256);
 		writer.write((char)c2);
-			
-		
+
+
 	}
 	//sets up the first 256 ascii chars in the dictionary
 	private void setup (int chars) {
