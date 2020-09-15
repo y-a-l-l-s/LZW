@@ -50,11 +50,12 @@ public class Encoder {
 		bw.close();
 	}
 
-	//writes the Integer onto the output file in base 256 2 digit form
+	//writes the Integer onto the output file in base 255 2 digit form
 	private void write (Integer num, BufferedWriter writer) throws IOException {
-		int c1 = (int) (num / 256);
+
+		int c1 = (int) (num / 255) + 1;
 		writer.write((char)c1);
-		int c2 = (int) (num % 256);
+		int c2 = (int) (num % 255) + 1;
 		writer.write((char)c2);
 
 
